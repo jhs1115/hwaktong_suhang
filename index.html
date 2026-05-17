@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>데이터를 학습하는 인공지능의 원리 탐구</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js: 오차 감소 그래프를 쉽게 그리기 위한 라이브러리입니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Deep Learning Principle Simulation</p>
+      <h1>데이터를 학습하는 인공지능의 원리 탐구</h1>
+      <p class="intro">
+        이 시뮬레이션은 특정 예시 대신 변수 1과 변수 2의 관계를 학습하는 과정을 보여줍니다.
+        인공지능은 변수 1을 입력받아 변수 2를 예측하고, 실제값과의 오차를 줄이도록 가중치를 반복해서 수정합니다.
+      </p>
+    </section>
+
+    <section class="flow-card" aria-label="학습 과정">
+      <div class="flow-step active">1. 예측</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">2. 오차 계산</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">3. 가중치 수정</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">4. 반복 학습</div>
+    </section>
+
+    <div class="dashboard">
+      <section class="card data-card">
+        <div class="card-title-row">
+          <div>
+            <p class="section-label">학습 데이터</p>
+            <h2>변수 1 → 변수 2</h2>
+          </div>
+          <button id="resetDataButton" class="ghost-button" type="button">초기화</button>
+        </div>
+
+        <div class="input-row">
+          <label>
+            변수 1 값
+            <input id="inputValue" type="number" step="0.5" placeholder="숫자 입력">
+          </label>
+          <label>
+            변수 2 실제값
+            <input id="targetValue" type="number" step="1" placeholder="숫자 입력">
+          </label>
+          <button id="addDataButton" type="button">데이터 추가</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>변수 1</th>
+                <th>변수 2 실제값</th>
+                <th>현재 예측값</th>
+              </tr>
+            </thead>
+            <tbody id="dataTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card network-card">
+        <p class="section-label">인공신경망 시뮬레이션</p>
+        <h2>입력 1개, 출력 1개, 가중치 1개</h2>
+
+        <div class="network-visual">
+          <div class="node input-node">
+            <span>입력</span>
+            <strong>변수 1</strong>
+          </div>
+          <div class="weight-line">
+            <span id="weightBadge">w = 5.00</span>
+          </div>
+          <div class="node output-node">
+            <span>출력</span>
+            <strong>변수 2 예측</strong>
+          </div>
+        </div>
+
+        <p class="formula">
+          예측값 = 변수 1 × 가중치
+        </p>
+
+        <div class="control-grid">
+          <button id="trainButton" class="primary-button" type="button">학습 시작</button>
+          <button id="singleStepButton" type="button">1회 학습</button>
+          <button id="resetLearningButton" class="ghost-button" type="button">학습 초기화</button>
+        </div>
+      </section>
+
+      <section class="card stat-card">
+        <p class="section-label">실시간 학습 상태</p>
+        <h2>오차가 줄어드는지 확인하기</h2>
+
+        <div class="stats">
+          <div class="stat-box">
+            <span>현재 가중치</span>
+            <strong id="currentWeight">5.00</strong>
+          </div>
+          <div class="stat-box">
+            <span>현재 오차</span>
+            <strong id="currentError">0.00</strong>
+          </div>
+          <div class="stat-box">
+            <span>예측 결과</span>
+            <strong id="currentPrediction">0.00</strong>
+          </div>
+          <div class="stat-box">
+            <span>학습 횟수</span>
+            <strong id="learningCount">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="card compare-card">
+        <p class="section-label">학습 전후 비교</p>
+        <h2>같은 입력값으로 예측 비교</h2>
+
+        <label class="compare-input">
+          비교할 변수 1 값
+          <input id="compareInputValue" type="number" step="0.5" placeholder="숫자 입력">
+        </label>
+
+        <div class="compare-grid">
+          <div class="compare-box before">
+            <span>학습 전 예측</span>
+            <strong id="beforePrediction">35.00</strong>
+          </div>
+          <div class="compare-box after">
+            <span>학습 후 예측</span>
+            <strong id="afterPrediction">35.00</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="card chart-card">
+        <div class="card-title-row">
+          <div>
+            <p class="section-label">그래프</p>
+            <h2>학습이 진행될수록 오차 감소</h2>
+          </div>
+          <span class="chart-hint">Error Graph</span>
+        </div>
+        <div class="chart-box">
+          <canvas id="errorChart" aria-label="오차 그래프" width="900" height="300"></canvas>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="code.js"></script>
+</body>
+</html>
